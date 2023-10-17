@@ -1,0 +1,3 @@
+[submodule "cn-java"]
+	path = cn-java
+	url = https://github.com/YoucTagh/cn-java
