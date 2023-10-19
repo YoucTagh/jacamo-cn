@@ -1,0 +1,18 @@
+@base <http://xmlns.com/foaf/spec/> .
+@prefix cn: <https://purl.org/cn/> .
+@prefix cnstyle: <https://purl.org/cn/style/> .
+@prefix cndimension: <https://purl.org/cn/dimension/> .
+@prefix cnprotocol: <https://purl.org/cn/protocol/> .
+@prefix cnccmean: <https://purl.org/cn/ccmean/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<> a cn:NegotiableResource;
+   rdfs:label "foaf";
+   rdfs:comment "The FOAF ontology";
+   cn:hasCnStyle cnstyle:proactive;
+   cn:hasCnDimension cndimension:mediatype;
+   cn:hasProtocol cnprotocol:http;
+   cn:hasCnCcMean <http://myheaders.com/header/1> .
+
+<http://myheaders.com/header/1> a cnccmean:UriBased;
+                           cn:usesParam "format" .
