@@ -2,9 +2,9 @@
      S == kg_mediator
     <-
         .print("Request from KG Mediator to get NR");
-        getNR(X);
+        getNR(RIRI,RKG);
 
-        .send(S,tell,canNegotiate(X));
+        .send(S,tell,canNegotiate(RIRI,RKG));
     .
 
 +!getNegotiableResource[source(S)]:

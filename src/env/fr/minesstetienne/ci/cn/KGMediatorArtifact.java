@@ -12,10 +12,5 @@ public class KGMediatorArtifact extends Artifact {
     void init() {
 
     }
-
-    @OPERATION
-    void isNull(Object o) {
-
-    }
-
+    
 }

@@ -1,7 +1,12 @@
 /* Believe */
-acceptedMediaType("text/html").
+acceptedValue("https://purl.org/cn/dimension/mediatype","text/html").
+//acceptedValue("https://purl.org/cn/dimension/mediatype","text/plain").
+acceptedValue("https://purl.org/cn/dimension/profile","http://path-to-prof.com/1").
+acceptedValue("https://purl.org/cn/dimension/profile","http://path-to-prof.com/2").
+acceptedValue("https://purl.org/cn/dimension/profile","text/plain").
+acceptedValue("https://purl.org/cn/dimension/language","ar").
 
-neededResource("http://ci.minesstetienne.fr/ontology/cntf").
+neededResource("http://localhost/thesis/youctagh/specie/abies_numidica").
 
 /* Initial goals */
 !start.
@@ -12,43 +17,47 @@ neededResource("http://ci.minesstetienne.fr/ontology/cntf").
     true
   <-
      .print("I am Bob!");
-     //.send(kg_mediator,tell,canNegotiate("http://somestuff.com"));
-     //?neededResource(X);
+     ?neededResource(R);
      getAttemptCount(C);
-     !negotiate(C);
+     !negotiate(C,R);
      .
 
-+!negotiate(C)
++!negotiate(C,R)
     :
      C == 0
      <-
      .print("No more negotiation attempts");
 .
 
-+!negotiate(C)
++!negotiate(C,R)
     :
     C > 0
     <-
-    .send(kg_mediator,askAll,canNegotiate(A,B));
+    .send(kg_mediator,askAll,canNegotiate(Who,R,Rgraph));
     .print("ask mediator to know with whom negotiate");
     .wait(5000);
     decAttemptCount;
     getAttemptCount(NewCount);
-    !negotiate(NewCount);
+    !negotiate(NewCount,R);
 .
 
-+canNegotiate(X,Y)[source(S)]
++canNegotiate(Who,RIri,Rgraph)[source(S)]
     :
-    neededResource(P) & P \== Y
+    neededResource(P) & P \== RIri
     <-
-    -canNegotiate(X,Y)[source(S)];
+    -canNegotiate(Who,RIri,Rgraph)[source(S)];
 .
 
-+canNegotiate(X,Y)[source(S)]
++canNegotiate(Who,RIri,Rgraph)[source(S)]
     :
-    neededResource(P) & P == Y
+    neededResource(P) & P == RIri
     <-
-    .print("Let's negotiate with ",X," to get ",P);
+    .print("Let's negotiate with ",Who," to get ",P);
+    clearNegotiation;
+    for(acceptedValue(X,Y)){
+        addAcceptedValue(X,Y);
+   }
+    negotiateARepresentation(Rgraph);
 .
 
 

@@ -21,14 +21,18 @@ mas jacamo_cn {
         join: foaf_workspace
         focus: foaf_workspace.foaf_server
     }
+    agent abies_numidica: abies_numidica_agent.asl {
+        join: abies_numidica_workspace
+        focus: abies_numidica_workspace.abies_numidica_server
+    }
 
 /*
     workspace alice_workspace{
-        artifact alice_client: fr.minesstetienne.ci.cn.NegotiatorArtifact
+        artifact alice_client: fr.minesstetienne.ci.cn.NegotiatorArtifact("Alice")
     }
     */
     workspace bob_workspace{
-        artifact bob_client: fr.minesstetienne.ci.cn.NegotiatorArtifact
+        artifact bob_client: fr.minesstetienne.ci.cn.NegotiatorArtifact("Bob")
     }
     workspace kg_mediator_workspace{
         artifact kg_mediator: fr.minesstetienne.ci.cn.KGMediatorArtifact
@@ -39,5 +43,8 @@ mas jacamo_cn {
     workspace foaf_workspace{
         artifact foaf_server: fr.minesstetienne.ci.cn.FoafArtifact
     }
+    workspace abies_numidica_workspace{
+            artifact abies_numidica_server: fr.minesstetienne.ci.cn.AbiesNumidicaArtifact
+        }
 
 }

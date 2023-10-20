@@ -4,12 +4,16 @@ import cartago.Artifact;
 import cartago.OPERATION;
 import cartago.OpFeedbackParam;
 import fr.minesstetienne.ci.cn.io.NegotiableResourceReader;
+import fr.minesstetienne.ci.cn.io.NegotiableResourceWriter;
 import fr.minesstetienne.ci.cn.negotiation.NegotiableResource;
 import jason.stdlib.send;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -23,11 +27,13 @@ public class ServerArtifact extends Artifact {
 
     protected NegotiableResource negotiableResource;
 
+    private String absoluteLocation;
+
     void init(String location) {
         representations = new HashMap<>();
 
         try {
-            String absoluteLocation = getAbsoluteLocation(location);
+            this.absoluteLocation = getAbsoluteLocation(location);
             this.negotiableResource = NegotiableResourceReader.readFromFile(absoluteLocation);
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -49,9 +55,15 @@ public class ServerArtifact extends Artifact {
     }
 
     @OPERATION
-    public void getNR(OpFeedbackParam<Object> output) {
-        negotiableResource.getResource().getIRIAsString().ifPresent(output::set);
-        System.out.println("getNR ..."+output.get());
+    public void getNR(OpFeedbackParam<Object> resourceIRI,OpFeedbackParam<Object> graph) {
+        try {
+            String content = Files.readString(new File(this.absoluteLocation).toPath());
+            graph.set(content);
+            negotiableResource.getIRIAsString().ifPresent(resourceIRI::set);
+            System.out.println("getNR ..." + resourceIRI.get());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     String getAbsoluteLocation(String location) throws URISyntaxException {

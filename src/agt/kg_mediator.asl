@@ -1,6 +1,8 @@
 /* Believe */
 knowsServerAgent(cntf).
 knowsServerAgent(foaf).
+knowsServerAgent(abies_numidica).
+
 
 /* Initial goals */
 !start.
@@ -17,21 +19,21 @@ knowsServerAgent(foaf).
     }
     .
 
-+canNegotiate(X)[source(S)]
++canNegotiate(RIRI,RKG)[source(S)]
     :
         knowsServerAgent(Y) & S == Y
     <-
-        .print("Received ",X," from known server ",S);
-        -canNegotiate(X)[source(S)];
-        +canNegotiate(S,X);
+        .print("Received ",RIRI," from known server ",S);
+        -canNegotiate(RIRI,RKG)[source(S)];
+        +canNegotiate(S,RIRI,RKG);
     .
 
-+canNegotiate(X)[source(S)]
++canNegotiate(RIRI,RKG)[source(S)]
     :
         knowsServerAgent(Y) & S \== Y
     <-
-        .print("Received ",X," from unknown server ",S);
-        -canNegotiate(X)[source(S)];
+        .print("Received ",RIRI," from unknown server ",S);
+        -canNegotiate(RIRI,RKG)[source(S)];
     .
 
 { include("$jacamo/templates/common-cartago.asl") }
