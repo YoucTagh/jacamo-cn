@@ -1,1 +1,2 @@
-# JaCaMo CN
+# JaCaMo Content Negotiation
+
